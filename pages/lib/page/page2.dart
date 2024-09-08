@@ -8,44 +8,40 @@ class LearnerSkills extends StatefulWidget {
 }
 
 class _LearnerSkillsState extends State<LearnerSkills> {
-  List<String> selectedRoles = []; // Holds the selected roles
-  bool _showRoles = false; // Controls the visibility of the checkboxes
-  final TextEditingController _roleController =
-      TextEditingController(); // Controller for the TextField
-  List<String> roles = [
+  List<String> selectedSkills = [];
+  bool _showSkills = false;
+  final TextEditingController _skillController = TextEditingController();
+  List<String> skills = [
     "Figma",
     "App Development",
     "Power BI",
     "Photoshop",
     "After Effects",
     "Web Development"
-  ]; // List of roles
-  List<String> filteredRoles = []; // Filtered list based on search input
-
+  ]; 
+  List<String> filterSkills = [];
   @override
   void initState() {
     super.initState();
-    filteredRoles = roles; // Initialize filteredRoles
-    _roleController.addListener(() {
-      _filterRoles();
+    filterSkills = skills;
+    _skillController.addListener(() {
+      _filterSkills();
     });
   }
 
-  void _filterRoles() {
+  void _filterSkills() {
     setState(() {
-      filteredRoles = roles
-          .where((role) =>
-              role.toLowerCase().contains(_roleController.text.toLowerCase()))
+      filterSkills = skills
+          .where((skill) =>
+              skill.toLowerCase().contains(_skillController.text.toLowerCase()))
           .toList();
 
-      // Show roles if there's any text in the search field
-      _showRoles = _roleController.text.isNotEmpty;
+      _showSkills = _skillController.text.isNotEmpty;
     });
   }
 
   void _handleSubmit() {
-    print("Selected Roles: $selectedRoles");
-    // Add additional logic to store or send the data
+    print("Selected Skills: $selectedSkills");
   }
 
   @override
@@ -60,8 +56,7 @@ class _LearnerSkillsState extends State<LearnerSkills> {
               Stack(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(
-                        left: 20), // 20px gap from the start
+                    padding: const EdgeInsets.only(left: 20),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Image.asset('assets/images/back.png'),
@@ -93,10 +88,10 @@ class _LearnerSkillsState extends State<LearnerSkills> {
                   ),
                 ),
               ),
-              // Button to toggle visibility of checkboxes
               const SizedBox(height: 80),
               Container(
-                width: 350, height: 60, // Adjust the width as needed
+                width: 350,
+                height: 60,
                 decoration: const BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -124,12 +119,11 @@ class _LearnerSkillsState extends State<LearnerSkills> {
                       ),
                     ),
                     overlayColor: WidgetStateProperty.all(Colors.transparent),
-                    minimumSize: WidgetStateProperty.all(
-                        const Size(150, 40)), // Set the button size here
+                    minimumSize: WidgetStateProperty.all(const Size(150, 40)),
                   ),
                   onPressed: () {
                     setState(() {
-                      _showRoles = !_showRoles; // Toggle the visibility
+                      _showSkills = !_showSkills;
                     });
                   },
                   child: Row(
@@ -137,10 +131,10 @@ class _LearnerSkillsState extends State<LearnerSkills> {
                     children: [
                       const Padding(padding: EdgeInsets.only(left: 44)),
                       SizedBox(
-                        width: 130, // Adjust the TextField width as needed
+                        width: 130,
                         height: 20,
                         child: TextField(
-                          controller: _roleController,
+                          controller: _skillController,
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Learner Skills',
@@ -156,7 +150,7 @@ class _LearnerSkillsState extends State<LearnerSkills> {
                       Padding(
                         padding: const EdgeInsets.only(left: 123),
                         child: Image.asset(
-                          _showRoles
+                          _showSkills
                               ? 'assets/images/up.png'
                               : 'assets/images/down.png',
                           width: 15,
@@ -167,15 +161,13 @@ class _LearnerSkillsState extends State<LearnerSkills> {
                   ),
                 ),
               ),
-
-              // Show roles when _showRoles is true
               Visibility(
-                visible: _showRoles,
+                visible: _showSkills,
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   width: 353,
                   constraints: const BoxConstraints(
-                    maxHeight: 155, // Set the maximum height
+                    maxHeight: 155,
                   ),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -198,7 +190,7 @@ class _LearnerSkillsState extends State<LearnerSkills> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "Text input", // Fixed "Roles" text
+                            "Text input",
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -208,24 +200,21 @@ class _LearnerSkillsState extends State<LearnerSkills> {
                         ),
                       ),
                       Expanded(
-                        // Expanded to take available space for scrolling
                         child: SingleChildScrollView(
                           padding: EdgeInsets.symmetric(horizontal: 8),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Checkboxes
-                              ...filteredRoles.map((String role) {
-                                bool isSelected = selectedRoles.contains(role);
+                              ...filterSkills.map((String skill) {
+                                bool isSelected =
+                                    selectedSkills.contains(skill);
                                 return Container(
-                                  margin: const EdgeInsets.symmetric(
-                                      vertical: 2), // Gap between rows
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 2),
                                   decoration: BoxDecoration(
-                                    color: isSelected
-                                        ? Colors.blue
-                                        : Colors.white, // Background color
-                                    borderRadius: BorderRadius.circular(
-                                        8), // Apply border radius
+                                    color:
+                                        isSelected ? Colors.blue : Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Row(
                                     children: [
@@ -234,27 +223,25 @@ class _LearnerSkillsState extends State<LearnerSkills> {
                                         onChanged: (bool? newValue) {
                                           setState(() {
                                             if (newValue == true) {
-                                              selectedRoles.add(role);
+                                              selectedSkills.add(skill);
                                             } else {
-                                              selectedRoles.remove(role);
+                                              selectedSkills.remove(skill);
                                             }
                                           });
                                         },
-                                        activeColor:
-                                            Colors.blue, // Checkbox color
-                                        checkColor:
-                                            Colors.white, // Checkmark color
+                                        activeColor: Colors.blue,
+                                        checkColor: Colors.white,
                                       ),
                                       Expanded(
                                         child: Text(
-                                          role,
+                                          skill,
                                           style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w500,
                                             color: isSelected
                                                 ? Colors.white
-                                                : const Color.fromRGBO(76, 76,
-                                                    76, 1), // Text color
+                                                : const Color.fromRGBO(
+                                                    76, 76, 76, 1),
                                           ),
                                         ),
                                       ),
@@ -272,8 +259,6 @@ class _LearnerSkillsState extends State<LearnerSkills> {
               ),
             ],
           ),
-
-          // Fixed Submit Button in the center but slightly down
           Align(
             alignment: Alignment.center,
             child: Padding(
@@ -281,9 +266,9 @@ class _LearnerSkillsState extends State<LearnerSkills> {
               child: SizedBox(
                 width: 295,
                 child: ElevatedButton(
-                  onPressed: selectedRoles.isNotEmpty ? _handleSubmit : null,
+                  onPressed: selectedSkills.isNotEmpty ? _handleSubmit : null,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: selectedRoles.isNotEmpty
+                    backgroundColor: selectedSkills.isNotEmpty
                         ? const Color.fromRGBO(0, 145, 234, 1)
                         : Colors.grey,
                     padding: const EdgeInsets.symmetric(vertical: 15),
@@ -321,8 +306,7 @@ class _LearnerSkillsState extends State<LearnerSkills> {
 
   @override
   void dispose() {
-    _roleController
-        .dispose(); // Dispose of the controller when the widget is disposed
+    _skillController.dispose();
     super.dispose();
   }
 }
