@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pages/page/page2.dart';
+import 'package:pages/page/page3.dart';
 
 class SelectRole extends StatefulWidget {
   const SelectRole({super.key});
@@ -9,17 +10,18 @@ class SelectRole extends StatefulWidget {
 }
 
 class _SelectRoleState extends State<SelectRole> {
-  List<String> selectedRoles = []; // Holds the selected roles
-  bool _showRoles = false; // Controls the visibility of the checkboxes
-  final TextEditingController _roleController =
-      TextEditingController(); // Controller for the TextField
-  List<String> roles = ["Learner", "Guru"]; // List of roles
-  List<String> filteredRoles = []; // Filtered list based on search input
+  List<String> selectedRoles = [];
+  bool _showRoles = false;
+  final TextEditingController _roleController = TextEditingController();
+  List<String> roles = ["Learner", "Guru"];
+  List<String> filteredRoles = [];
+
+  String data = '';
 
   @override
   void initState() {
     super.initState();
-    filteredRoles = roles; // Initialize filteredRoles
+    filteredRoles = roles;
     _roleController.addListener(() {
       _filterRoles();
     });
@@ -32,21 +34,26 @@ class _SelectRoleState extends State<SelectRole> {
               role.toLowerCase().contains(_roleController.text.toLowerCase()))
           .toList();
 
-      // Show roles if there's any text in the search field
       _showRoles = _roleController.text.isNotEmpty;
     });
   }
 
   void _handleSubmit() {
-    print("Selected Roles: $selectedRoles");
-    // Add additional logic to store or send the data
+    if (selectedRoles.length < 2) {
+      data = selectedRoles[0];
+    }
   }
 
   void _navigateToDetailScreen() {
-    if (roles.isNotEmpty) {
+    if (roles.isNotEmpty && selectedRoles.length < 2) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const LearnerSkills()),
+        MaterialPageRoute(builder: (context) => LearnerSkills(data: data)),
+      );
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => LearnerGuruSkills(data: data)),
       );
     }
   }
@@ -63,8 +70,7 @@ class _SelectRoleState extends State<SelectRole> {
               Stack(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(
-                        left: 20), // 20px gap from the start
+                    padding: const EdgeInsets.only(left: 20),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Image.asset('assets/images/back.png'),
@@ -96,10 +102,10 @@ class _SelectRoleState extends State<SelectRole> {
                   ),
                 ),
               ),
-              // Button to toggle visibility of checkboxes
               const SizedBox(height: 80),
               Container(
-                width: 350, height: 60, // Adjust the width as needed
+                width: 350,
+                height: 60,
                 decoration: const BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
@@ -127,12 +133,11 @@ class _SelectRoleState extends State<SelectRole> {
                       ),
                     ),
                     overlayColor: WidgetStateProperty.all(Colors.transparent),
-                    minimumSize: WidgetStateProperty.all(
-                        const Size(150, 40)), // Set the button size here
+                    minimumSize: WidgetStateProperty.all(const Size(150, 40)),
                   ),
                   onPressed: () {
                     setState(() {
-                      _showRoles = !_showRoles; // Toggle the visibility
+                      _showRoles = !_showRoles;
                     });
                   },
                   child: Row(
@@ -140,8 +145,8 @@ class _SelectRoleState extends State<SelectRole> {
                     children: [
                       const Padding(padding: EdgeInsets.only(left: 44)),
                       SizedBox(
-                        width: 102, // Adjust the TextField width as needed
-                        height: 20,
+                        width: 102,
+                        height: 30,
                         child: TextField(
                           controller: _roleController,
                           decoration: const InputDecoration(
@@ -170,15 +175,13 @@ class _SelectRoleState extends State<SelectRole> {
                   ),
                 ),
               ),
-
-              // Show roles when _showRoles is true
               Visibility(
                 visible: _showRoles,
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   width: 353,
                   constraints: const BoxConstraints(
-                    maxHeight: 155, // Set the maximum height
+                    maxHeight: 125,
                   ),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -201,7 +204,7 @@ class _SelectRoleState extends State<SelectRole> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "Text input", // Fixed "Roles" text
+                            "Text input",
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -211,24 +214,20 @@ class _SelectRoleState extends State<SelectRole> {
                         ),
                       ),
                       Expanded(
-                        // Expanded to take available space for scrolling
                         child: SingleChildScrollView(
-                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Checkboxes
                               ...filteredRoles.map((String role) {
                                 bool isSelected = selectedRoles.contains(role);
                                 return Container(
-                                  margin: const EdgeInsets.symmetric(
-                                      vertical: 2), // Gap between rows
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 2),
                                   decoration: BoxDecoration(
-                                    color: isSelected
-                                        ? Colors.blue
-                                        : Colors.white, // Background color
-                                    borderRadius: BorderRadius.circular(
-                                        8), // Apply border radius
+                                    color:
+                                        isSelected ? Colors.blue : Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Row(
                                     children: [
@@ -243,10 +242,8 @@ class _SelectRoleState extends State<SelectRole> {
                                             }
                                           });
                                         },
-                                        activeColor:
-                                            Colors.blue, // Checkbox color
-                                        checkColor:
-                                            Colors.white, // Checkmark color
+                                        activeColor: Colors.blue,
+                                        checkColor: Colors.white,
                                       ),
                                       Expanded(
                                         child: Text(
@@ -256,15 +253,15 @@ class _SelectRoleState extends State<SelectRole> {
                                             fontWeight: FontWeight.w500,
                                             color: isSelected
                                                 ? Colors.white
-                                                : const Color.fromRGBO(76, 76,
-                                                    76, 1), // Text color
+                                                : const Color.fromRGBO(
+                                                    76, 76, 76, 1),
                                           ),
                                         ),
                                       ),
                                     ],
                                   ),
                                 );
-                              }).toList(),
+                              }),
                             ],
                           ),
                         ),
@@ -275,8 +272,6 @@ class _SelectRoleState extends State<SelectRole> {
               ),
             ],
           ),
-
-          // Fixed Submit Button in the center but slightly down
           Align(
             alignment: Alignment.center,
             child: Padding(
@@ -329,8 +324,7 @@ class _SelectRoleState extends State<SelectRole> {
 
   @override
   void dispose() {
-    _roleController
-        .dispose(); // Dispose of the controller when the widget is disposed
+    _roleController.dispose();
     super.dispose();
   }
 }
