@@ -15,8 +15,7 @@ class _SelectRoleState extends State<SelectRole> {
   final TextEditingController _roleController = TextEditingController();
   List<String> roles = ["Learner", "Guru"];
   List<String> filteredRoles = [];
-
-  String data = '';
+  String data = ''; // Local variable to store selected role data
 
   @override
   void initState() {
@@ -40,8 +39,9 @@ class _SelectRoleState extends State<SelectRole> {
 
   void _handleSubmit() {
     if (selectedRoles.length < 2) {
-      data = selectedRoles[0];
+      data = selectedRoles[0]; // Update data with the first selected role
     }
+    print("Selected Roles: $selectedRoles"); // Log selected roles
   }
 
   void _navigateToDetailScreen() {
@@ -116,13 +116,13 @@ class _SelectRoleState extends State<SelectRole> {
                 ),
                 child: TextButton(
                   style: ButtonStyle(
-                    padding: WidgetStateProperty.all(
+                    padding: MaterialStateProperty.all(
                       const EdgeInsets.symmetric(horizontal: 0),
                     ),
-                    backgroundColor: WidgetStateProperty.all(
+                    backgroundColor: MaterialStateProperty.all(
                       const Color.fromRGBO(226, 226, 226, 1),
                     ),
-                    shape: WidgetStateProperty.all(
+                    shape: MaterialStateProperty.all(
                       const RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(6),
@@ -132,8 +132,8 @@ class _SelectRoleState extends State<SelectRole> {
                         ),
                       ),
                     ),
-                    overlayColor: WidgetStateProperty.all(Colors.transparent),
-                    minimumSize: WidgetStateProperty.all(const Size(150, 40)),
+                    overlayColor: MaterialStateProperty.all(Colors.transparent),
+                    minimumSize: MaterialStateProperty.all(const Size(150, 40)),
                   ),
                   onPressed: () {
                     setState(() {

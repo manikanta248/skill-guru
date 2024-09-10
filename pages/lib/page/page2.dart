@@ -26,6 +26,7 @@ class _LearnerSkillsState extends State<LearnerSkills> {
   ];
   List<String> filterSkills = [];
   String role = '';
+
   @override
   void initState() {
     super.initState();
@@ -53,7 +54,9 @@ class _LearnerSkillsState extends State<LearnerSkills> {
     });
   }
 
-  void _handleSubmit() {}
+  void _handleSubmit() {
+    print("Selected Skills: $selectedSkills");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,13 +122,13 @@ class _LearnerSkillsState extends State<LearnerSkills> {
                 ),
                 child: TextButton(
                   style: ButtonStyle(
-                    padding: WidgetStateProperty.all(
+                    padding: MaterialStateProperty.all(
                       const EdgeInsets.symmetric(horizontal: 0),
                     ),
-                    backgroundColor: WidgetStateProperty.all(
+                    backgroundColor: MaterialStateProperty.all(
                       const Color.fromRGBO(226, 226, 226, 1),
                     ),
-                    shape: WidgetStateProperty.all(
+                    shape: MaterialStateProperty.all(
                       const RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(6),
@@ -135,8 +138,8 @@ class _LearnerSkillsState extends State<LearnerSkills> {
                         ),
                       ),
                     ),
-                    overlayColor: WidgetStateProperty.all(Colors.transparent),
-                    minimumSize: WidgetStateProperty.all(const Size(150, 40)),
+                    overlayColor: MaterialStateProperty.all(Colors.transparent),
+                    minimumSize: MaterialStateProperty.all(const Size(150, 40)),
                   ),
                   onPressed: () {
                     setState(() {
