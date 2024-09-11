@@ -12,8 +12,8 @@ class _LearnerGuruSkillsState extends State<LearnerGuruSkills> {
   bool isLearner = false;
   bool isGuru = false;
 
-  String? selectedLearnerSkill;
-  String? selectedGuruSkill;
+  List<String> selectedLearnerSkills = [];
+  List<String> selectedGuruSkills = [];
 
   bool _showLearnerSkills = false;
   bool _showGuruSkills = false;
@@ -30,11 +30,12 @@ class _LearnerGuruSkillsState extends State<LearnerGuruSkills> {
     "Web Development"
   ];
   List<String> guruSkills = [
-    "UI Design",
-    "Mentoring",
-    "Leadership",
-    "Public Speaking",
-    "Project Management"
+    "Figma",
+    "App Development",
+    "Power BI",
+    "Photoshop",
+    "After Effects",
+    "Web Development"
   ];
 
   List<String> filteredLearnerSkills = [];
@@ -86,17 +87,25 @@ class _LearnerGuruSkillsState extends State<LearnerGuruSkills> {
   void _onSkillSelected(String skill, bool isLearner) {
     setState(() {
       if (isLearner) {
-        selectedLearnerSkill = selectedLearnerSkill == skill ? null : skill;
+        if (selectedLearnerSkills.contains(skill)) {
+          selectedLearnerSkills.remove(skill);
+        } else {
+          selectedLearnerSkills.add(skill);
+        }
       } else {
-        selectedGuruSkill = selectedGuruSkill == skill ? null : skill;
+        if (selectedGuruSkills.contains(skill)) {
+          selectedGuruSkills.remove(skill);
+        } else {
+          selectedGuruSkills.add(skill);
+        }
       }
     });
   }
 
   void _handleSubmit() {
     // Handle the selected skills submission
-    print("Learner Selected Skill: $selectedLearnerSkill");
-    print("Guru Selected Skill: $selectedGuruSkill");
+    print("Learner Selected Skills: $selectedLearnerSkills");
+    print("Guru Selected Skills: $selectedGuruSkills");
   }
 
   @override
@@ -154,9 +163,9 @@ class _LearnerGuruSkillsState extends State<LearnerGuruSkills> {
                   _learnerSkillController,
                   _showLearnerSkills,
                   filteredLearnerSkills,
-                  selectedLearnerSkill,
+                  selectedLearnerSkills,
                   isLearner),
-              const SizedBox(height: 40),
+              const SizedBox(height: 20),
 
               // Guru skills input
               _buildSkillsInput(
@@ -164,7 +173,7 @@ class _LearnerGuruSkillsState extends State<LearnerGuruSkills> {
                   _guruSkillController,
                   _showGuruSkills,
                   filteredGuruSkills,
-                  selectedGuruSkill,
+                  selectedGuruSkills,
                   isGuru),
               const SizedBox(height: 10),
 
@@ -176,14 +185,13 @@ class _LearnerGuruSkillsState extends State<LearnerGuruSkills> {
                       vertical: 10), // Adjust padding as needed
                   child: SizedBox(
                     width: 295,
+                    height: 40,
                     child: ElevatedButton(
-                      onPressed: selectedLearnerSkill != null &&
-                              selectedLearnerSkill!.isNotEmpty
+                      onPressed: selectedLearnerSkills.isNotEmpty
                           ? _handleSubmit
                           : null,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: selectedLearnerSkill != null &&
-                                selectedLearnerSkill!.isNotEmpty
+                        backgroundColor: selectedLearnerSkills.isNotEmpty
                             ? const Color.fromRGBO(0, 145, 234, 1)
                             : Colors.grey,
                         padding: const EdgeInsets.symmetric(vertical: 15),
@@ -226,7 +234,7 @@ class _LearnerGuruSkillsState extends State<LearnerGuruSkills> {
     TextEditingController controller,
     bool showSkills,
     List<String> filteredSkills,
-    String? selectedSkill,
+    List<String> selectedSkills,
     bool isRoleSelected,
   ) {
     return Column(
@@ -311,7 +319,7 @@ class _LearnerGuruSkillsState extends State<LearnerGuruSkills> {
           Container(
             width: 350, // Decreased width
             constraints: const BoxConstraints(
-              maxHeight: 125,
+              maxHeight: 110,
             ),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -349,8 +357,7 @@ class _LearnerGuruSkillsState extends State<LearnerGuruSkills> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ...filteredSkills.map((String skill) {
-                          bool isSelected =
-                              (isRoleSelected && selectedSkill == skill);
+                          bool isSelected = selectedSkills.contains(skill);
                           return Container(
                             margin: const EdgeInsets.symmetric(vertical: 2),
                             decoration: BoxDecoration(

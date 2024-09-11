@@ -43,6 +43,8 @@ class _LearnerSkillsState extends State<LearnerSkills> {
     }
   }
 
+  void _navigateToDetailScreen() {}
+
   void _filterSkills() {
     setState(() {
       filterSkills = skills
@@ -122,13 +124,13 @@ class _LearnerSkillsState extends State<LearnerSkills> {
                 ),
                 child: TextButton(
                   style: ButtonStyle(
-                    padding: MaterialStateProperty.all(
+                    padding: WidgetStateProperty.all(
                       const EdgeInsets.symmetric(horizontal: 0),
                     ),
-                    backgroundColor: MaterialStateProperty.all(
+                    backgroundColor: WidgetStateProperty.all(
                       const Color.fromRGBO(226, 226, 226, 1),
                     ),
-                    shape: MaterialStateProperty.all(
+                    shape: WidgetStateProperty.all(
                       const RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(6),
@@ -138,8 +140,8 @@ class _LearnerSkillsState extends State<LearnerSkills> {
                         ),
                       ),
                     ),
-                    overlayColor: MaterialStateProperty.all(Colors.transparent),
-                    minimumSize: MaterialStateProperty.all(const Size(150, 40)),
+                    overlayColor: WidgetStateProperty.all(Colors.transparent),
+                    minimumSize: WidgetStateProperty.all(const Size(150, 40)),
                   ),
                   onPressed: () {
                     setState(() {
@@ -285,8 +287,14 @@ class _LearnerSkillsState extends State<LearnerSkills> {
               padding: const EdgeInsets.only(top: 456),
               child: SizedBox(
                 width: 295,
+                height: 40,
                 child: ElevatedButton(
-                  onPressed: selectedSkills.isNotEmpty ? _handleSubmit : null,
+                  onPressed: () {
+                    if (selectedSkills.isNotEmpty) {
+                      _handleSubmit();
+                      _navigateToDetailScreen();
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: selectedSkills.isNotEmpty
                         ? const Color.fromRGBO(0, 145, 234, 1)

@@ -116,13 +116,13 @@ class _SelectRoleState extends State<SelectRole> {
                 ),
                 child: TextButton(
                   style: ButtonStyle(
-                    padding: MaterialStateProperty.all(
+                    padding: WidgetStateProperty.all(
                       const EdgeInsets.symmetric(horizontal: 0),
                     ),
-                    backgroundColor: MaterialStateProperty.all(
+                    backgroundColor: WidgetStateProperty.all(
                       const Color.fromRGBO(226, 226, 226, 1),
                     ),
-                    shape: MaterialStateProperty.all(
+                    shape: WidgetStateProperty.all(
                       const RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(6),
@@ -132,8 +132,8 @@ class _SelectRoleState extends State<SelectRole> {
                         ),
                       ),
                     ),
-                    overlayColor: MaterialStateProperty.all(Colors.transparent),
-                    minimumSize: MaterialStateProperty.all(const Size(150, 40)),
+                    overlayColor: WidgetStateProperty.all(Colors.transparent),
+                    minimumSize: WidgetStateProperty.all(const Size(150, 40)),
                   ),
                   onPressed: () {
                     setState(() {
@@ -278,6 +278,7 @@ class _SelectRoleState extends State<SelectRole> {
               padding: const EdgeInsets.only(top: 456),
               child: SizedBox(
                 width: 295,
+                height: 40,
                 child: ElevatedButton(
                   onPressed: () {
                     if (selectedRoles.isNotEmpty) {
