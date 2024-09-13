@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:developer';
-import 'package:agora_rtc_engine/agora_rtc_engine.dart';
+import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:permission_handler/permission_handler.dart';
 import './call.dart';
 
@@ -15,8 +15,7 @@ class IndexPage extends StatefulWidget {
 class _IndexPageState extends State<IndexPage> {
   final _channelController = TextEditingController();
   bool _validateError = false;
-  ClientRoleType? _role = ClientRoleType.clientRoleBroadcaster; // Updated class
-
+  ClientRole? _role = ClientRole.Broadcaster;
   @override
   void dispose() {
     _channelController.dispose();
@@ -44,24 +43,24 @@ class _IndexPageState extends State<IndexPage> {
                 hintText: 'channel name',
               ),
             ),
-            RadioListTile<ClientRoleType>(
+            RadioListTile(
               title: const Text('Broadcaster'),
-              onChanged: (ClientRoleType? value) {
+              onChanged: (ClientRole? value) {
                 setState(() {
                   _role = value;
                 });
               },
-              value: ClientRoleType.clientRoleBroadcaster, // Updated value
+              value: ClientRole.Broadcaster, // Updated value
               groupValue: _role,
             ),
-            RadioListTile<ClientRoleType>(
+            RadioListTile<ClientRole>(
               title: const Text('Audience'),
-              onChanged: (ClientRoleType? value) {
+              onChanged: (ClientRole? value) {
                 setState(() {
                   _role = value;
                 });
               },
-              value: ClientRoleType.clientRoleAudience, // Updated value
+              value: ClientRole.Audience, // Updated value
               groupValue: _role,
             ),
             ElevatedButton(
@@ -90,6 +89,7 @@ class _IndexPageState extends State<IndexPage> {
           MaterialPageRoute(
               builder: (context) => CallPage(
                     channelName: _channelController.text,
+                    role: _role,
                   )));
     }
   }

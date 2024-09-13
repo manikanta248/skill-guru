@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       home: Scaffold(
           backgroundColor: Colors.white,
-          body: SelectRole() // Use SelectRole here
+          body: IndexPage() // Use SelectRole here
           ),
     );
   }
