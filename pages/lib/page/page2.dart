@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pages/page/call_page.dart';
 
 class LearnerSkills extends StatefulWidget {
   final String data;
@@ -47,7 +48,16 @@ class _LearnerSkillsState extends State<LearnerSkills> {
     }
   }
 
-  void _navigateToDetailScreen() {}
+  void _navigateToDetailScreen() {
+    if (isLearner) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                QueryVideoCall(selectedSkills: selectedSkills)),
+      );
+    }
+  }
 
   void _filterSkills() {
     setState(() {
