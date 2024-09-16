@@ -22,18 +22,20 @@ class _LearnerGuruSkillsState extends State<LearnerGuruSkills> {
   final TextEditingController _guruSkillController = TextEditingController();
 
   List<String> learnerSkills = [
-    "UI Design",
-    "Mentoring",
-    "Leadership",
-    "Public Speaking",
-    "Project Management"
+    "Figma",
+    "App Development",
+    "Power BI",
+    "Photoshop",
+    "After Effects",
+    "Web Development"
   ];
   List<String> guruSkills = [
-    "UI Design",
-    "Mentoring",
-    "Leadership",
-    "Public Speaking",
-    "Project Management"
+    "Figma",
+    "App Development",
+    "Power BI",
+    "Photoshop",
+    "After Effects",
+    "Web Development"
   ];
 
   List<String> filteredLearnerSkills = [];
@@ -150,15 +152,7 @@ class _LearnerGuruSkillsState extends State<LearnerGuruSkills> {
                   ),
                 ),
               ),
-              const SizedBox(height: 40),
-              _buildSkillsInput(
-                  "Guru skills",
-                  _guruSkillController,
-                  _showGuruSkills,
-                  filteredGuruSkills,
-                  selectedGuruSkill,
-                  isGuru // Should be true or false depending on the role
-                  ),
+
               const SizedBox(height: 40),
               _buildSkillsInput(
                   "Learner skills",
@@ -167,6 +161,15 @@ class _LearnerGuruSkillsState extends State<LearnerGuruSkills> {
                   filteredLearnerSkills,
                   selectedLearnerSkill,
                   isLearner // Should be true or false depending on the role
+                  ),
+              const SizedBox(height: 40),
+              _buildSkillsInput(
+                  "Guru skills",
+                  _guruSkillController,
+                  _showGuruSkills,
+                  filteredGuruSkills,
+                  selectedGuruSkill,
+                  isGuru // Should be true or false depending on the role
                   ),
 
               const SizedBox(height: 40),
