@@ -5,15 +5,15 @@ class LearnerGuruSkills extends StatefulWidget {
   const LearnerGuruSkills({required this.data, super.key});
 
   @override
-  _LearnerGuruSkillsState createState() => _LearnerGuruSkillsState();
+  State<LearnerGuruSkills> createState() => _LearnerGuruSkillsState();
 }
 
 class _LearnerGuruSkillsState extends State<LearnerGuruSkills> {
-  bool isLearner = false;
+  bool isLearner = true;
   bool isGuru = false;
 
-  List<String> selectedLearnerSkills = [];
-  List<String> selectedGuruSkills = [];
+  List<String> selectedLearnerSkill = [];
+  List<String> selectedGuruSkill = [];
 
   bool _showLearnerSkills = false;
   bool _showGuruSkills = false;
@@ -22,26 +22,22 @@ class _LearnerGuruSkillsState extends State<LearnerGuruSkills> {
   final TextEditingController _guruSkillController = TextEditingController();
 
   List<String> learnerSkills = [
-    "Figma",
-    "App Development",
-    "Power BI",
-    "Photoshop",
-    "After Effects",
-    "Web Development"
+    "UI Design",
+    "Mentoring",
+    "Leadership",
+    "Public Speaking",
+    "Project Management"
   ];
   List<String> guruSkills = [
-    "Figma",
-    "App Development",
-    "Power BI",
-    "Photoshop",
-    "After Effects",
-    "Web Development"
+    "UI Design",
+    "Mentoring",
+    "Leadership",
+    "Public Speaking",
+    "Project Management"
   ];
 
   List<String> filteredLearnerSkills = [];
   List<String> filteredGuruSkills = [];
-
-  String role = '';
 
   @override
   void initState() {
@@ -58,7 +54,6 @@ class _LearnerGuruSkillsState extends State<LearnerGuruSkills> {
       _filterSkills(_guruSkillController.text, isLearner: false);
     });
 
-    role = widget.data;
     if (widget.data == 'Learner') {
       isLearner = true;
     } else if (widget.data == 'Guru') {
@@ -84,19 +79,19 @@ class _LearnerGuruSkillsState extends State<LearnerGuruSkills> {
     });
   }
 
-  void _onSkillSelected(String skill, bool isLearner) {
+  void _onSkillSelected(String skill, {required bool isLearner}) {
     setState(() {
       if (isLearner) {
-        if (selectedLearnerSkills.contains(skill)) {
-          selectedLearnerSkills.remove(skill);
+        if (selectedLearnerSkill.contains(skill)) {
+          selectedLearnerSkill.remove(skill); // Deselect if already selected
         } else {
-          selectedLearnerSkills.add(skill);
+          selectedLearnerSkill.add(skill); // Select the new skill
         }
       } else {
-        if (selectedGuruSkills.contains(skill)) {
-          selectedGuruSkills.remove(skill);
+        if (selectedGuruSkill.contains(skill)) {
+          selectedGuruSkill.remove(skill); // Deselect if already selected
         } else {
-          selectedGuruSkills.add(skill);
+          selectedGuruSkill.add(skill); // Select the new skill
         }
       }
     });
@@ -104,8 +99,8 @@ class _LearnerGuruSkillsState extends State<LearnerGuruSkills> {
 
   void _handleSubmit() {
     // Handle the selected skills submission
-    print("Learner Selected Skills: $selectedLearnerSkills");
-    print("Guru Selected Skills: $selectedGuruSkills");
+    print("Learner Selected Skill: $selectedLearnerSkill");
+    print("Guru Selected Skill: $selectedGuruSkill");
   }
 
   @override
@@ -156,42 +151,43 @@ class _LearnerGuruSkillsState extends State<LearnerGuruSkills> {
                 ),
               ),
               const SizedBox(height: 40),
-
-              // Learner skills input
-              _buildSkillsInput(
-                  "Learner skills",
-                  _learnerSkillController,
-                  _showLearnerSkills,
-                  filteredLearnerSkills,
-                  selectedLearnerSkills,
-                  isLearner),
-              const SizedBox(height: 20),
-
-              // Guru skills input
               _buildSkillsInput(
                   "Guru skills",
                   _guruSkillController,
                   _showGuruSkills,
                   filteredGuruSkills,
-                  selectedGuruSkills,
-                  isGuru),
-              const SizedBox(height: 10),
+                  selectedGuruSkill,
+                  isGuru // Should be true or false depending on the role
+                  ),
+              const SizedBox(height: 40),
+              _buildSkillsInput(
+                  "Learner skills",
+                  _learnerSkillController,
+                  _showLearnerSkills,
+                  filteredLearnerSkills,
+                  selectedLearnerSkill,
+                  isLearner // Should be true or false depending on the role
+                  ),
+
+              const SizedBox(height: 40),
+
+              // Guru skills input
 
               // Next button
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 10), // Adjust padding as needed
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   child: SizedBox(
                     width: 295,
-                    height: 40,
                     child: ElevatedButton(
-                      onPressed: selectedLearnerSkills.isNotEmpty
+                      onPressed: selectedLearnerSkill.isNotEmpty ||
+                              selectedGuruSkill.isNotEmpty
                           ? _handleSubmit
                           : null,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: selectedLearnerSkills.isNotEmpty
+                        backgroundColor: selectedLearnerSkill.isNotEmpty ||
+                                selectedGuruSkill.isNotEmpty
                             ? const Color.fromRGBO(0, 145, 234, 1)
                             : Colors.grey,
                         padding: const EdgeInsets.symmetric(vertical: 15),
@@ -234,13 +230,13 @@ class _LearnerGuruSkillsState extends State<LearnerGuruSkills> {
     TextEditingController controller,
     bool showSkills,
     List<String> filteredSkills,
-    List<String> selectedSkills,
+    List<String> selectedSkill,
     bool isRoleSelected,
   ) {
     return Column(
       children: [
         Container(
-          width: 350, // Decreased width
+          width: 350,
           height: 60,
           decoration: const BoxDecoration(
             border: Border(
@@ -317,7 +313,7 @@ class _LearnerGuruSkillsState extends State<LearnerGuruSkills> {
         ),
         if (showSkills)
           Container(
-            width: 350, // Decreased width
+            width: 350,
             constraints: const BoxConstraints(
               maxHeight: 110,
             ),
@@ -357,7 +353,7 @@ class _LearnerGuruSkillsState extends State<LearnerGuruSkills> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ...filteredSkills.map((String skill) {
-                          bool isSelected = selectedSkills.contains(skill);
+                          bool isSelected = selectedSkill.contains(skill);
                           return Container(
                             margin: const EdgeInsets.symmetric(vertical: 2),
                             decoration: BoxDecoration(
@@ -369,8 +365,8 @@ class _LearnerGuruSkillsState extends State<LearnerGuruSkills> {
                                 Checkbox(
                                   value: isSelected,
                                   onChanged: (bool? newValue) {
-                                    print("Checkbox clicked: $skill");
-                                    _onSkillSelected(skill, isRoleSelected);
+                                    _onSkillSelected(skill,
+                                        isLearner: isRoleSelected);
                                   },
                                   activeColor: Colors.blue,
                                   checkColor: Colors.white,

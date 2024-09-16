@@ -1,4 +1,4 @@
-const appId = 'f3c2d6e28d7a4ccdbd047e41842e96f6';
+const AppId = "f3c2d6e28d7a4ccdbd047e41842e96f6";
 
-const token =
-    '007eJxTYJgZUfZOpJljakmAV7imXba36O3uWPML/K9fbS9u0pjVdVeBIc042SjFLNXIIsU80SQ5OSUpxcDEPNXE0MLEKNXSLM0sV/pxWkMgI0POxAdMjAwQCOJzMaTllJaUpBblJhYwMAAAzx4htA==';
+const Token =
+    '007eJxTYOhO/bzyU6YDA+/yuUa3WplSWD9vu8f889z/nAlLji9sL/uvwJBmnGyUYpZqZJFinmiSnJySlGJgYp5qYmhhYpRqaZZmlm/2NK0hkJFh2QtLJkYGCATxuRjSckpLSlKLchMLGBgA51kk4g==';

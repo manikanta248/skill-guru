@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pages/agora/index.dart';
-import 'package:pages/page/page1.dart';
+import 'package:pages/page/page1.dart'; // Or any other screen, like SelectRole
 
 void main() {
   runApp(const MyApp());
@@ -11,11 +10,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-          backgroundColor: Colors.white,
-          body: IndexPage() // Use SelectRole here
-          ),
+    return MaterialApp(
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.blue, // Set global background color
+      ),
+      home: const SelectRole(), // Or use SelectRole here
     );
   }
 }

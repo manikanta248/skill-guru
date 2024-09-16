@@ -26,6 +26,7 @@ class _LearnerSkillsState extends State<LearnerSkills> {
   ];
   List<String> filterSkills = [];
   String role = '';
+  late ScrollController _scrollController; // Declare ScrollController as late
 
   @override
   void initState() {
@@ -35,6 +36,9 @@ class _LearnerSkillsState extends State<LearnerSkills> {
       _filterSkills();
     });
     role = widget.data;
+    _scrollController =
+        ScrollController(); // Properly initialize ScrollController
+
     // Example usage of widget.data
     if (widget.data == 'Learner') {
       isLearner = true;
@@ -124,13 +128,13 @@ class _LearnerSkillsState extends State<LearnerSkills> {
                 ),
                 child: TextButton(
                   style: ButtonStyle(
-                    padding: WidgetStateProperty.all(
+                    padding: MaterialStateProperty.all(
                       const EdgeInsets.symmetric(horizontal: 0),
                     ),
-                    backgroundColor: WidgetStateProperty.all(
+                    backgroundColor: MaterialStateProperty.all(
                       const Color.fromRGBO(226, 226, 226, 1),
                     ),
-                    shape: WidgetStateProperty.all(
+                    shape: MaterialStateProperty.all(
                       const RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(6),
@@ -140,8 +144,8 @@ class _LearnerSkillsState extends State<LearnerSkills> {
                         ),
                       ),
                     ),
-                    overlayColor: WidgetStateProperty.all(Colors.transparent),
-                    minimumSize: WidgetStateProperty.all(const Size(150, 40)),
+                    overlayColor: MaterialStateProperty.all(Colors.transparent),
+                    minimumSize: MaterialStateProperty.all(const Size(150, 40)),
                   ),
                   onPressed: () {
                     setState(() {
@@ -222,56 +226,64 @@ class _LearnerSkillsState extends State<LearnerSkills> {
                         ),
                       ),
                       Expanded(
-                        child: SingleChildScrollView(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ...filterSkills.map((String skill) {
-                                bool isSelected =
-                                    selectedSkills.contains(skill);
-                                return Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 2),
-                                  decoration: BoxDecoration(
-                                    color:
-                                        isSelected ? Colors.blue : Colors.white,
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Checkbox(
-                                        value: isSelected,
-                                        onChanged: (bool? newValue) {
-                                          setState(() {
-                                            if (newValue == true) {
-                                              selectedSkills.add(skill);
-                                            } else {
-                                              selectedSkills.remove(skill);
-                                            }
-                                          });
-                                        },
-                                        activeColor: Colors.blue,
-                                        checkColor: Colors.white,
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          skill,
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                            color: isSelected
-                                                ? Colors.white
-                                                : const Color.fromRGBO(
-                                                    76, 76, 76, 1),
+                        child: Scrollbar(
+                          controller: _scrollController,
+                          thumbVisibility: true,
+                          thickness: 8.0,
+                          radius: const Radius.circular(6),
+                          child: SingleChildScrollView(
+                            controller: _scrollController,
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ...filterSkills.map((String skill) {
+                                  bool isSelected =
+                                      selectedSkills.contains(skill);
+                                  return Container(
+                                    margin:
+                                        const EdgeInsets.symmetric(vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: isSelected
+                                          ? Colors.blue
+                                          : Colors.white,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Checkbox(
+                                          value: isSelected,
+                                          onChanged: (bool? newValue) {
+                                            setState(() {
+                                              if (newValue == true) {
+                                                selectedSkills.add(skill);
+                                              } else {
+                                                selectedSkills.remove(skill);
+                                              }
+                                            });
+                                          },
+                                          activeColor: Colors.blue,
+                                          checkColor: Colors.white,
+                                        ),
+                                        Expanded(
+                                          child: Text(
+                                            skill,
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                              color: isSelected
+                                                  ? Colors.white
+                                                  : const Color.fromRGBO(
+                                                      76, 76, 76, 1),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }),
-                            ],
+                                      ],
+                                    ),
+                                  );
+                                }),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -334,7 +346,7 @@ class _LearnerSkillsState extends State<LearnerSkills> {
 
   @override
   void dispose() {
-    _skillController.dispose();
+    _scrollController.dispose(); // Dispose the ScrollController
     super.dispose();
   }
 }
