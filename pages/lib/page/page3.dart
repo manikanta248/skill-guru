@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pages/page/call_page.dart';
 
 class LearnerGuruSkills extends StatefulWidget {
   final String data;
@@ -99,6 +100,17 @@ class _LearnerGuruSkillsState extends State<LearnerGuruSkills> {
     });
   }
 
+  void _navigateToDetailScreen() {
+    if (isLearner) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                QueryVideoCall(selectedSkills: selectedLearnerSkill),
+          ));
+    }
+  }
+
   void _handleSubmit() {
     // Handle the selected skills submission
     print("Learner Selected Skill: $selectedLearnerSkill");
@@ -186,7 +198,7 @@ class _LearnerGuruSkillsState extends State<LearnerGuruSkills> {
                     child: ElevatedButton(
                       onPressed: selectedLearnerSkill.isNotEmpty ||
                               selectedGuruSkill.isNotEmpty
-                          ? _handleSubmit
+                          ? _navigateToDetailScreen
                           : null,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: selectedLearnerSkill.isNotEmpty ||
